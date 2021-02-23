@@ -14,6 +14,7 @@ before_script:
   - pip3 install ansible
   - chmod -R 774 ansible
   - chmod -R 755 ansible/inventory.py
+  - cp /keys/training-key.pem ansible/keys/training-key.pem
   - chmod 600 ansible/keys/training-key.pem
 
 deploy:demo:
