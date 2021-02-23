@@ -3,7 +3,7 @@ stacks:
     state: "present"
     composerFile: "docker-compose.yml"
     version: "demo"
-    replicas: 4
+    replicas: 2
     cpu: '0.5'
     ram: '128M'
     env:
