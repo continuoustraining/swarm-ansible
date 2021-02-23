@@ -19,7 +19,7 @@ services:
       - /var/lib/mysql:rw,noexec,nosuid,size=300m
 
   app:
-    image: php:7-apache
+    image: oswald/docker-training:latest
     deploy:
       replicas: {{ stack.replicas }}
       resources:
