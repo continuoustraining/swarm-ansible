@@ -8,9 +8,6 @@ before_script:
   - apt-get install -y python3
   - apt-get install -y python3-pip
   - apt-get install -y ssh
-  - systemctl ssh start
-  - systemctl ssh enable
-  - service ssh status
   - pip3 install boto3
   - pip3 install jsondiff
   - pip3 install awscli
