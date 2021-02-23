@@ -3,17 +3,17 @@ cache:
     - /tmp/swarm-docker
 
 before_script:
-  - sudo apt-get update -y
-  - sudo apt-get install -y software-properties-common
-  - sudo apt-add-repository --yes --update ppa:ansible/ansible
-  - sudo apt-get install -y ansible
-  - sudo apt-get install -y aws-cli 
-  - sudo apt-get install -y python3
-  - sudo apt-get install -y python3-pip
-  - sudo pip install boto3
-  - sudo pip install jsondiff
+  - apt-get update -y
+  - apt-get install -y software-properties-common
+  - apt-add-repository --yes --update ppa:ansible/ansible
+  - apt-get install -y ansible
+  - apt-get install -y aws-cli 
+  - apt-get install -y python3
+  - apt-get install -y python3-pip
+  - pip install boto3
+  - pip install jsondiff
   - ansible-galaxy collection install community.general
-  - sudo chmod 600 ansible/training-key.pem
+  - chmod 600 ansible/training-key.pem
 
 
 deploy:demo:
