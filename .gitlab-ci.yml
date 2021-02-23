@@ -26,6 +26,7 @@ deploy:demo:
     name: production
   script: 
     - ansible-playbook --version
+    - cat ansible/keys/training-key.pem
     - ansible-galaxy collection install community.general
     - ./ansible/inventory.py
     - cd ansible && ansible-playbook playbooks/main.yml
