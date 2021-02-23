@@ -7,11 +7,11 @@ before_script:
   - apt-get install -y software-properties-common
   - apt-add-repository --yes --update ppa:ansible/ansible
   - apt-get install -y ansible
-  - apt-get install -y aws-cli 
   - apt-get install -y python3
   - apt-get install -y python3-pip
   - pip install boto3
   - pip install jsondiff
+  - pip install awscli
   - ansible-galaxy collection install community.general
   - chmod 600 ansible/training-key.pem
 
