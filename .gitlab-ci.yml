@@ -13,6 +13,7 @@ before_script:
   - pip3 install jsondiff
   - pip3 install awscli
   - ansible-galaxy collection install community.general
+  - chmod -R 774 ansible
   - echo $SSH_PRIVATE_KEY > ansible/training-key.pem
   - chmod 600 ansible/training-key.pem
 
