@@ -12,7 +12,6 @@ before_script:
   - pip3 install boto3
   - pip3 install jsondiff
   - pip3 install awscli
-  - ansible-galaxy collection install community.general
   - chmod -R 774 ansible
   - chmod -R 755 ansible/inventory.py
   - echo $SSH_PRIVATE_KEY > ansible/training-key.pem
@@ -27,6 +26,7 @@ deploy:demo:
   environment: 
     name: production
   script: 
+    - ansible-galaxy collection install community.general
     - ./ansible/inventory.py
     - cd ansible && ansible-playbook playbooks/main.yml
   
