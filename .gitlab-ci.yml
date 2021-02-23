@@ -5,13 +5,12 @@ cache:
 before_script:
   - apt-get update -y
   - apt-get install -y software-properties-common
-  - apt-add-repository --yes --update ppa:ansible/ansible
-  - apt-get install -y ansible
   - apt-get install -y python3
   - apt-get install -y python3-pip
   - pip3 install boto3
   - pip3 install jsondiff
   - pip3 install awscli
+  - pip3 install ansible
   - chmod -R 774 ansible
   - chmod -R 755 ansible/inventory.py
   - echo $SSH_PRIVATE_KEY > ansible/training-key.pem
@@ -26,6 +25,7 @@ deploy:demo:
   environment: 
     name: production
   script: 
+    - ansible-playbook --version
     - ansible-galaxy collection install community.general
     - ./ansible/inventory.py
     - cd ansible && ansible-playbook playbooks/main.yml
