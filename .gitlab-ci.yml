@@ -26,6 +26,7 @@ deploy:demo:
   environment: 
     name: production
   script: 
+    - echo $SSH_PRIVATE_KEY
     - ansible-playbook --version
     - ansible-galaxy collection install community.general
     - ./ansible/inventory.py
