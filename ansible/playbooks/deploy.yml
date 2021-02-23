@@ -1,0 +1,44 @@
+---
+
+- hosts: main
+  name: "deploy stack"
+  vars_files:
+    - ../vars/envproxy.yml
+  collections:
+   - community.general
+  tasks: 
+    
+    - name: "create stack folder"
+      file:
+        state: directory
+        path: "/opt/stack/{{ stack.name }}"
+        mode: '0755'
+        owner: "root" 
+        group: "root"
+      loop: "{{ stacks }}"
+      loop_control:
+        loop_var: "stack"
+    
+    - name: "create composer file for docker stack"
+      template:
+        src: "../templates/{{ stack.composerFile }}.j2"
+        dest: "/opt/stack/{{ stack.name }}/docker-compose.yml"
+        mode: '0655'
+        owner: "root" 
+        group: "root"
+      loop: "{{ stacks }}"
+      loop_control:
+        loop_var: "stack"
+        
+    - name: Deploy stack from a compose file
+      community.general.docker_stack:
+        state: "{{ stack.state }}"
+        name: "{{ stack.name }}"
+        compose:
+          - "/opt/stack/{{ stack.name }}/docker-compose.yml"
+      loop: "{{ stacks }}"
+      loop_control:
+        loop_var: "stack"
+
+
+        

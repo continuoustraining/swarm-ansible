@@ -1,0 +1,18 @@
+---
+
+- hosts: main
+  name: "shoiw stack info"
+  vars_files:
+    - ../vars/envproxy.yml
+  collections:
+   - community.general
+  tasks:
+
+    - name: Shows stack info
+      community.docker.docker_stack_task_info:
+        name: "{{ stacks.0.name }}"
+      register: result
+    
+    - name: Show results
+      debug:
+        var: result.results

@@ -1,0 +1,28 @@
+cache:
+  paths:
+    - /tmp/swarm-docker
+
+before_script:
+  - sudo apt-get update -y
+  - sudo apt-get install -y software-properties-common
+  - sudo apt-add-repository --yes --update ppa:ansible/ansible
+  - sudo apt-get install -y ansible
+  - sudo apt-get install -y aws-cli 
+  - sudo apt-get install -y python3
+  - sudo apt-get install -y python3-pip
+  - sudo pip install boto3
+  - sudo pip install jsondiff
+  - ansible-galaxy collection install community.general
+  - sudo chmod 600 ansible/training-key.pem
+
+
+deploy:demo:
+  image: ubuntu:18.04
+  only:
+    - master
+    - tags
+  environment: 
+    name: production
+  script: 
+    - cd ansible && ansible-playbook playbooks/main.yml
+  

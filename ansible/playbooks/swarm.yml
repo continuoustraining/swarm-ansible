@@ -1,0 +1,48 @@
+---
+
+- hosts: main
+  name: "init swan and join"
+  vars_files:
+    - ../vars/envproxy.yml
+  collections:
+   - community.general
+  tasks:
+  
+    - name: "Init a new swarm with default parameters"
+      community.general.docker_swarm:
+        state: present
+      register: swarm
+    
+    - set_fact:
+        worker: "{{ swarm.swarm_facts.JoinTokens.Worker }}"
+        manager: "{{ swarm.swarm_facts.JoinTokens.Manager }}"
+        
+  
+- hosts: slave
+  name: "workers init"
+  gather_facts: no
+  vars_files:
+    - ../vars/envproxy.yml
+  collections:
+   - community.general
+  tasks:
+    - name: "workers join swarn cluster"
+      community.general.docker_swarm:
+        state: join
+        join_token: "{{ hostvars[groups['main'][0]]['worker'] }}"
+        remote_addrs: [ "{{ mainAddr }}" ]
+
+- hosts: master
+  name: "master init"
+  gather_facts: no
+  vars_files:
+    - ../vars/envproxy.yml
+  collections:
+   - community.general
+  tasks:
+    - name: "Managers join swarn cluster"
+      community.general.docker_swarm:
+        state: join
+        join_token: "{{ hostvars[groups['main'][0]]['manager'] }}"
+        remote_addrs: [ "{{ mainAddr }}" ]
+      

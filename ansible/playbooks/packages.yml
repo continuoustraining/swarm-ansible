@@ -1,0 +1,23 @@
+---
+- hosts: all
+  name: "install needed packages"
+  vars_files:
+    - ../vars/packages.yml
+  tasks:
+
+    - name: "ensure update done"
+      apt: 
+        update_cache: yes
+
+    - name: "install apt packages"
+      apt: 
+        name: "{{ item.name }}"
+        state: "{{ item.state }}"
+      loop: "{{ aptPackages }}"
+  
+  
+    - name: "install pip packages"
+      pip: 
+        name: "{{ item.name }}"
+        state: "{{ item.state }}"
+      loop: "{{ pipPackages }}"

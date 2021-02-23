@@ -1,0 +1,6 @@
+---
+
+- import_playbook: packages.yml
+- import_playbook: swarm.yml
+- import_playbook: deploy.yml
+- import_playbook: test.yml

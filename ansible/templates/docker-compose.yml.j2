@@ -1,0 +1,54 @@
+version: '3.1'
+
+services:
+  db_server:
+    image: mariadb:10.3
+    deploy:
+      resources:
+        limits:
+          cpus: "{{ stack.cpu }}"
+          memory: "{{ stack.ram }}"
+      restart_policy:
+        condition: on-failure
+    environment:
+      - MYSQL_ROOT_PASSWORD=test-my-secret-pw
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASS}
+    tmpfs: 
+      - /var/lib/mysql:rw,noexec,nosuid,size=300m
+
+  app:
+    image: php:7-apache
+    deploy:
+      replicas: {{ stack.replicas }}
+      resources:
+        limits:
+          cpus: "{{ stack.cpu }}"
+          memory: "{{ stack.ram }}"
+      restart_policy:
+        condition: on-failure
+    ports:
+       - 80:80
+    links:
+      - db_server
+    environment:
+      - DB_HOST=db_server
+      - DB_NAME={{ stack.env.dbname }}
+      - DB_USER={{ stack.env.dbuser }}
+      - DB_PASS={{ stack.env.dbpass }}
+      - ENV={{ stack.version }}
+
+  phpmyadmin:
+      image: phpmyadmin
+      environment:
+       - PMA_ARBITRARY=1
+      links:
+        - db_server
+      ports:
+       - 8080:80
+      volumes:
+       - /sessions
+      depends_on:
+        - db_server
+        

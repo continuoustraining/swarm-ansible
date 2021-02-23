@@ -1,0 +1,12 @@
+stacks:
+  - name: "demo"
+    state: "present"
+    composerFile: "docker-compose.yml"
+    version: "demo"
+    replicas: 4
+    cpu: '0.5'
+    ram: '128M'
+    env:
+      dbname: "{{ lookup('env','DB_NAME') }}"
+      dbuser: "{{ lookup('env','DB_USER') }}"
+      dbpass: "{{ lookup('env','DB_PASS') }}"
