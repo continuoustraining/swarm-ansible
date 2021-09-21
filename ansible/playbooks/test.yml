@@ -1,7 +1,7 @@
 ---
 
 - hosts: main
-  name: "shoiw stack info"
+  name: "show stack info"
   vars_files:
     - ../vars/envproxy.yml
   collections:

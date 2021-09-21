@@ -1,13 +1,12 @@
-#!/usr/bin/python3
+#!/usr/bin/env python
 
 import json
 import boto3
 from botocore.config import Config
 
-my_config = Config(
-    region_name = 'us-east-1');
+my_config = Config(region_name = 'us-east-1');
 
-ec2 = boto3.resource('ec2' , config=my_config);
+ec2 = ec2 = boto3.resource('ec2' , config=my_config);
 
 custom_master_filter = [{
     'Name':'tag:swarmType', 
@@ -26,21 +25,16 @@ custom_slave_filter = [{
 slaves = ec2.instances.filter(Filters=custom_slave_filter);
 
 machines = { 
-            'main': { 'hosts': [] },
-            'master':  { 'hosts': [], 'vars': {} },
-            'slave':  { 'hosts': [], 'vars': {}  }         
+            'master':  { 'hosts': [] },
+            'slave':  { 'hosts': [] },            
         };
+i = 0;
 
-managers = list(masters);
-main = list(masters).pop(0);
-machines['main']['hosts'].append(main.public_ip_address);
-
-machines['master']['vars'] = {'mainAddr': main.public_ip_address};
-machines['slave']['vars'] = {'mainAddr': main.public_ip_address};
-
-for instance in managers :
+for instance in masters :
     machines['master']['hosts'].append(instance.public_ip_address);
 
+    
+i = 0;
 
 for instance in slaves :
     machines['slave']['hosts'].append(instance.public_ip_address);

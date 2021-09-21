@@ -21,6 +21,8 @@ before_script:
 
 deploy:demo:
   image: ubuntu:18.04
+  tags:
+    - ubuntu
   only:
     - master
     - tags
@@ -28,7 +30,6 @@ deploy:demo:
     name: production
   script: 
     - ansible-playbook --version
-    - cat ansible/keys/training-key.pem
     - ansible-galaxy collection install community.general
     - ./ansible/inventory.py
     - cd ansible && ansible-playbook playbooks/main.yml

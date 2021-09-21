@@ -4,10 +4,6 @@ services:
   db_server:
     image: mariadb:10.3
     deploy:
-      resources:
-        limits:
-          cpus: "{{ stack.cpu }}"
-          memory: "{{ stack.ram }}"
       restart_policy:
         condition: on-failure
     environment:
